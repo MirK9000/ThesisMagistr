@@ -12,6 +12,4 @@ rem docker run --rm -i -v "%cd%":/diplom:Z 2109199812/docker-latex bash -c "make
 rem Build presentation.pdf file
 rem docker run --rm -i -v "%cd%":/diplom:Z 2109199812/docker-latex bash -c "make presentation"
 
-pause
-
 ENDLOCAL

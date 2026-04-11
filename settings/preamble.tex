@@ -1,7 +1,8 @@
 \documentclass[
 candidate, % document type
 subf, % use and configure subfig package for nested figure numbering
-times % use Times font as main
+times, % use Times font as main
+14pt
 ]{disser}
 
 % Кодировка и язык
@@ -10,7 +11,7 @@ times % use Times font as main
 \usepackage[english,russian]{babel} % переключение языков
 
 % Геометрия страницы и графика
-\usepackage[left=3cm, right=1cm, top=2cm, bottom=2cm]{geometry} % поля страницы
+\usepackage[left=3cm, right=1.5cm, top=2.5cm, bottom=2.5cm]{geometry} % поля страницы
 \usepackage{graphicx} % подключение графики
 \usepackage{pdfpages} % вставка pdf-страниц
 
@@ -37,6 +38,8 @@ times % use Times font as main
 \usepackage[onehalfspacing]{setspace} % полуторный интервал
 \usepackage{fancyhdr} % установка колонтитулов
 \usepackage{listings} % поддержка вставки исходного кода
+\usepackage{indentfirst} % абзацный отступ первой строки (1.25cm по ГОСТ)
+\setlength{\parindent}{1.25cm}
 
 % Установка шрифта Times New Roman
 \renewcommand{\rmdefault}{ftm}
@@ -46,10 +49,16 @@ times % use Times font as main
 \newcolumntype{C}[1]{>{\PreserveBackslash\centering}p{#1}}
 
 % Настройка стиля страницы
-\pagestyle{fancy}      % Использование стиля "fancy" для оформления страниц
+\pagestyle{fancy}       % Использование стиля "fancy" для оформления страниц
 \fancyhf{}              % Очистка текущих значений колонтитулов
-\fancyfoot[C]{\thepage} % Установка номера страницы в нижнем колонтитуле по центру
+\fancyhead[R]{\thepage} % Установка номера страницы в верхнем колонтитуле справа
 \renewcommand{\headrulewidth}{0pt} % Удаление разделительной линии в верхнем колонтитуле
+
+\fancypagestyle{plain}{
+    \fancyhf{}
+    \fancyhead[R]{\thepage}
+    \renewcommand{\headrulewidth}{0pt}
+}
 
 % Настройка подписей к изображениям и таблицам
 \captionsetup{format=hang,labelsep=period}
@@ -64,5 +73,5 @@ times % use Times font as main
 \graphicspath{{images/}}
 
 % Установка стилей страницы и главы
-\pagestyle{footcenter}
-\chapterpagestyle{footcenter}
+\pagestyle{fancy}
+\chapterpagestyle{fancy}
