@@ -1,29 +1,15 @@
-graph TD
-    classDef client fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
-    classDef server fill:#fff3e0,stroke:#e65100,stroke-width:2px;
-    classDef internal fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px;
-    
-    subgraph ClientLayer [Клиентский уровень]
-        PWA[Прогрессивное веб-приложение<br>PWA]:::client
-    end
-    
-    subgraph CoreSystem [Ядро системы]
-        CRM[Модуль CRM и Геймификации]:::server
-        API[API Шлюз / Серверная логика]:::server
-        DB[(База данных)]:::server
-    end
-    
-    subgraph InternalLayer [Внутренний контур]
-        POS[Кассовая система POS]:::internal
-        KDS[Экран кухни KDS]:::internal
-    end
-    
-    %% Отступы для визуальной красоты
-    PWA <-->|Запросы / Согласия ПД| API
-    API <-->|Ведение профилей| CRM
-    API <-->|Чтение / Запись| DB
-    CRM <-->|Синхронизация баллов| DB
-    
-    API ==>|Передача заказов| POS
-    POS ==>|Статусы готовности| KDS
-    KDS -.->|Обновление статуса| API
+%%{init: {"theme":"base","securityLevel":"loose","themeCSS":".nodeLabel .nodebox{display:block;width:100%;min-width:260px;text-align:center;font-family:Times New Roman;font-size:14px;line-height:1.25}.nodeLabel .node-title{background:#dce9f5;border-bottom:1px solid #000;padding:8px 12px;font-weight:bold}.nodeLabel .node-body{background:#fff;padding:10px 12px}","themeVariables":{"fontFamily":"Times New Roman","fontSize":"14px","primaryColor":"#ffffff","primaryBorderColor":"#000000","lineColor":"#000000","textColor":"#000000","edgeLabelBackground":"#ffffff"},"flowchart":{"htmlLabels":true,"curve":"linear","nodeSpacing":25,"rankSpacing":35}}}%%
+flowchart TB
+    classDef panel fill:#ffffff,stroke:#000000,stroke-width:1px,color:#000000;
+
+    Internal["<div class='nodebox'><div class='node-title'>Внутренняя автоматизация кафе</div><div class='node-body'>заказы и оплата<br/>кухня и выдача<br/>склад и финансы</div></div>"]:::panel
+    Legal["<div class='nodebox'><div class='node-title'>Правовой и защитный контур</div><div class='node-body'>согласия<br/>цели обработки<br/>роли доступа<br/>хранение и удаление</div></div>"]:::panel
+    Data["<div class='nodebox'><div class='node-title'>Данные и аналитика</div><div class='node-body'>клиентская база<br/>история взаимодействий<br/>показатели сервиса</div></div>"]:::panel
+    Client["<div class='nodebox'><div class='node-title'>Клиентский цифровой контур</div><div class='node-body'>информация и меню<br/>бронирование и события<br/>обратная связь<br/>тематическое вовлечение</div></div>"]:::panel
+    Guest["<div class='nodebox'><div class='node-title'>Гость кафе</div><div class='node-body'>получатель цифрового<br/>взаимодействия</div></div>"]:::panel
+
+    Internal -->|операционные данные| Data
+    Data -->|аналитика| Client
+    Client <-->|цифровое взаимодействие| Guest
+    Legal -.-> Data
+    Legal -.-> Client
