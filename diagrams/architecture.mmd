@@ -1,0 +1,29 @@
+graph TD
+    classDef client fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
+    classDef server fill:#fff3e0,stroke:#e65100,stroke-width:2px;
+    classDef internal fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px;
+    
+    subgraph ClientLayer [Клиентский уровень]
+        PWA[Прогрессивное веб-приложение<br>PWA]:::client
+    end
+    
+    subgraph CoreSystem [Ядро системы]
+        CRM[Модуль CRM и Геймификации]:::server
+        API[API Шлюз / Серверная логика]:::server
+        DB[(База данных)]:::server
+    end
+    
+    subgraph InternalLayer [Внутренний контур]
+        POS[Кассовая система POS]:::internal
+        KDS[Экран кухни KDS]:::internal
+    end
+    
+    %% Отступы для визуальной красоты
+    PWA <-->|Запросы / Согласия ПД| API
+    API <-->|Ведение профилей| CRM
+    API <-->|Чтение / Запись| DB
+    CRM <-->|Синхронизация баллов| DB
+    
+    API ==>|Передача заказов| POS
+    POS ==>|Статусы готовности| KDS
+    KDS -.->|Обновление статуса| API
