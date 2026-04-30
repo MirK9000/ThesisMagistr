@@ -1,0 +1,35 @@
+%%{init: {"theme":"base","securityLevel":"loose","themeVariables":{"fontFamily":"Times New Roman","fontSize":"18px","primaryColor":"#ffffff","primaryBorderColor":"#000000","lineColor":"#000000","textColor":"#000000","edgeLabelBackground":"#ffffff"},"flowchart":{"htmlLabels":true,"curve":"linear","nodeSpacing":42,"rankSpacing":54}}}%%
+flowchart TB
+    classDef ui fill:#f7fbff,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef service fill:#eaf4ea,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef data fill:#fff2cc,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef actor fill:#f4f4f4,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef future fill:#ffffff,stroke:#000000,stroke-width:2px,color:#000000;
+
+    Guest["<b>Гость</b><br/>мобильный браузер<br/>или установленная PWA"]:::actor
+    Manager["<b>Менеджер</b><br/>обработка заявок<br/>и обратный звонок"]:::actor
+    Lead["<b>Управляющая</b><br/>контент и контроль<br/>цифрового канала"]:::actor
+
+    Client["<b>React/Vite webapp</b><br/>главный экран;<br/>меню;<br/>события;<br/>игра;<br/>контакты"]:::ui
+    Game["<b>Клиентский модуль геймификации</b><br/>local state;<br/>факультет;<br/>уроки;<br/>прогресс"]:::ui
+
+    API["<b>API заявок и контента</b><br/>валидация;<br/>статусы;<br/>передача менеджеру"]:::future
+    Content["<b>Модуль контента</b><br/>меню;<br/>события;<br/>описания мероприятий"]:::service
+    Requests["<b>Модуль заявок</b><br/>личные события;<br/>дни рождения;<br/>мастер-классы"]:::service
+    Consent["<b>Модуль согласий</b><br/>цель обработки;<br/>версия;<br/>факт согласия"]:::service
+
+    DB[("<b>База данных</b><br/>контент;<br/>заявки;<br/>согласия;<br/>статусы")]:::data
+    Local[("<b>Локальное состояние</b><br/>игровой профиль;<br/>выбранный факультет;<br/>прогресс")]:::data
+
+    Guest --> Client
+    Client --> Game
+    Game --> Local
+    Client --> API
+    API --> Content
+    API --> Requests
+    API --> Consent
+    Content --> DB
+    Requests --> DB
+    Consent --> DB
+    Requests --> Manager
+    Lead --> Content

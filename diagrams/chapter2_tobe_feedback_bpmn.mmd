@@ -1,0 +1,38 @@
+%%{init: {"theme":"base","securityLevel":"loose","themeVariables":{"fontFamily":"Times New Roman","fontSize":"15px","primaryColor":"#ffffff","primaryBorderColor":"#000000","lineColor":"#000000","textColor":"#000000","edgeLabelBackground":"#ffffff"},"flowchart":{"htmlLabels":true,"curve":"linear","nodeSpacing":30,"rankSpacing":42}}}%%
+flowchart LR
+    classDef event fill:#ffffff,stroke:#000000,stroke-width:2px,color:#000000;
+    classDef task fill:#f7fbff,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef gateway fill:#ffffff,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef data fill:#eaf4ea,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef control fill:#f4f4f4,stroke:#000000,stroke-width:1px,color:#000000;
+
+    subgraph Guest["Гость"]
+        direction LR
+        G0(("Старт")):::event --> G1["Открывает раздел<br/>обратной связи"]:::task
+        G1 --> G2["Выбирает тему обращения<br/>или оценивает визит"]:::task
+        G2 --> G3["Отправляет отзыв<br/>с контактными данными<br/>или без них"]:::task
+        G3 --> G4["Получает подтверждение<br/>регистрации обращения"]:::task
+        G4 --> G5(("Завершение<br/>для гостя")):::event
+    end
+
+    subgraph App["Веб-приложение"]
+        direction LR
+        S1["Проверяет форму<br/>и минимальный состав данных"]:::task
+        S2["Фиксирует отзыв,<br/>категорию и статус"]:::data
+        S3["Связывает отзыв<br/>с профилем, событием<br/>или бронированием при наличии"]:::data
+        S4["Передает обращение<br/>администратору"]:::task
+        S5["Обновляет статус<br/>и сохраняет результат обработки"]:::data
+    end
+
+    subgraph Admin["Администратор"]
+        direction LR
+        A1["Получает обращение<br/>в административной панели"]:::task
+        A2["Классифицирует обращение<br/>по причине и приоритету"]:::task
+        A3{"Нужен ответ<br/>гостю?"}:::gateway
+        A4["Отвечает гостю<br/>при наличии правового основания<br/>и контакта"]:::control
+        A5["Фиксирует внутреннее<br/>управленческое действие"]:::task
+    end
+
+    G3 --> S1 --> S2 --> S3 --> S4 --> A1 --> A2 --> A3
+    A3 -- "да" --> A4 --> A5 --> S5 --> G4
+    A3 -- "нет" --> A5 --> S5 --> G4

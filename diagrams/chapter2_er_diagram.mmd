@@ -1,0 +1,155 @@
+%%{init: {"theme":"base","themeVariables":{"fontFamily":"Times New Roman","fontSize":"14px","primaryColor":"#ffffff","primaryBorderColor":"#000000","lineColor":"#000000","textColor":"#000000"}}}%%
+erDiagram
+    USER {
+        int user_id PK
+        string full_name
+        string phone
+        string email
+        datetime created_at
+        string status
+    }
+
+    ROLE {
+        int role_id PK
+        string code
+        string name
+    }
+
+    USER_ROLE {
+        int user_id FK
+        int role_id FK
+        datetime assigned_at
+    }
+
+    CONSENT_VERSION {
+        int consent_version_id PK
+        string purpose_code
+        string text_hash
+        datetime valid_from
+        boolean active
+    }
+
+    USER_CONSENT {
+        int user_consent_id PK
+        int user_id FK
+        int consent_version_id FK
+        datetime accepted_at
+        datetime revoked_at
+        string source
+    }
+
+    MENU_CATEGORY {
+        int category_id PK
+        string name
+        int sort_order
+        boolean active
+    }
+
+    MENU_ITEM {
+        int item_id PK
+        int category_id FK
+        string name
+        text description
+        decimal price
+        boolean active
+    }
+
+    EVENT {
+        int event_id PK
+        string title
+        text description
+        datetime starts_at
+        int capacity
+        string status
+    }
+
+    BOOKING {
+        int booking_id PK
+        int user_id FK
+        int event_id FK
+        datetime visit_at
+        int guests_count
+        string status
+        datetime created_at
+    }
+
+    FEEDBACK {
+        int feedback_id PK
+        int user_id FK
+        int booking_id FK
+        int event_id FK
+        string topic
+        int rating
+        text message
+        string status
+        datetime created_at
+    }
+
+    PREFERENCE {
+        int preference_id PK
+        int user_id FK
+        string type
+        string value
+        datetime updated_at
+    }
+
+    THEMATIC_PROFILE {
+        int thematic_profile_id PK
+        int user_id FK
+        string role_name
+        int progress_score
+        string status
+        datetime updated_at
+    }
+
+    ACHIEVEMENT {
+        int achievement_id PK
+        string code
+        string title
+        text condition_description
+        boolean active
+    }
+
+    USER_ACHIEVEMENT {
+        int user_id FK
+        int achievement_id FK
+        datetime achieved_at
+        int event_id FK
+    }
+
+    NOTIFICATION {
+        int notification_id PK
+        int user_id FK
+        string type
+        text body
+        string status
+        datetime created_at
+    }
+
+    AUDIT_LOG {
+        int audit_log_id PK
+        int actor_user_id FK
+        string action
+        string entity_type
+        int entity_id
+        datetime created_at
+        string result
+    }
+
+    USER ||--o{ USER_ROLE : has
+    ROLE ||--o{ USER_ROLE : assigned
+    USER ||--o{ USER_CONSENT : gives
+    CONSENT_VERSION ||--o{ USER_CONSENT : fixes
+    MENU_CATEGORY ||--o{ MENU_ITEM : contains
+    USER ||--o{ BOOKING : creates
+    EVENT ||--o{ BOOKING : includes
+    USER ||--o{ FEEDBACK : sends
+    BOOKING ||--o{ FEEDBACK : may_have
+    EVENT ||--o{ FEEDBACK : may_have
+    USER ||--o{ PREFERENCE : has
+    USER ||--o| THEMATIC_PROFILE : owns
+    USER ||--o{ USER_ACHIEVEMENT : receives
+    ACHIEVEMENT ||--o{ USER_ACHIEVEMENT : assigned
+    EVENT ||--o{ USER_ACHIEVEMENT : context
+    USER ||--o{ NOTIFICATION : receives
+    USER ||--o{ AUDIT_LOG : performs

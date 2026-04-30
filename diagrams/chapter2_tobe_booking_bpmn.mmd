@@ -1,0 +1,41 @@
+%%{init: {"theme":"base","securityLevel":"loose","themeVariables":{"fontFamily":"Times New Roman","fontSize":"15px","primaryColor":"#ffffff","primaryBorderColor":"#000000","lineColor":"#000000","textColor":"#000000","edgeLabelBackground":"#ffffff"},"flowchart":{"htmlLabels":true,"curve":"linear","nodeSpacing":30,"rankSpacing":42}}}%%
+flowchart LR
+    classDef event fill:#ffffff,stroke:#000000,stroke-width:2px,color:#000000;
+    classDef task fill:#f7fbff,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef gateway fill:#ffffff,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef data fill:#eaf4ea,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef control fill:#f4f4f4,stroke:#000000,stroke-width:1px,color:#000000;
+
+    subgraph Guest["Гость"]
+        direction LR
+        G0(("Старт")):::event --> G1["Открывает веб-приложение<br/>по ссылке или QR-коду"]:::task
+        G1 --> G2["Просматривает меню,<br/>события и доступные условия"]:::task
+        G2 --> G3["Заполняет форму<br/>бронирования"]:::task
+        G3 --> G4["Подтверждает согласие<br/>на обработку необходимых данных"]:::control
+        G4 --> G5["Получает статус заявки<br/>и подтверждение действия"]:::task
+        G5 --> G6(("Завершение<br/>клиентского действия")):::event
+    end
+
+    subgraph App["Веб-приложение"]
+        direction LR
+        S1["Проверяет обязательные поля<br/>и корректность данных"]:::task
+        S2["Создает заявку<br/>со статусом 'новая'"]:::data
+        S3["Сохраняет факт согласия,<br/>дату и версию текста"]:::data
+        S4["Передает заявку<br/>в административный интерфейс"]:::task
+        S5["Обновляет статус<br/>после решения администратора"]:::data
+    end
+
+    subgraph Admin["Администратор"]
+        direction LR
+        A1["Просматривает новые заявки<br/>в едином журнале"]:::task
+        A2["Проверяет доступность<br/>стола или события"]:::task
+        A3{"Бронирование<br/>возможно?"}:::gateway
+        A4["Подтверждает заявку"]:::task
+        A5["Предлагает альтернативу<br/>или отклоняет заявку"]:::task
+    end
+
+    G3 --> S1 --> S2
+    G4 --> S3
+    S2 --> S4 --> A1 --> A2 --> A3
+    A3 -- "да" --> A4 --> S5 --> G5
+    A3 -- "нет" --> A5 --> S5 --> G5

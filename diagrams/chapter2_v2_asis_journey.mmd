@@ -1,0 +1,24 @@
+%%{init: {"theme":"base","securityLevel":"loose","themeVariables":{"fontFamily":"Times New Roman","fontSize":"18px","primaryColor":"#ffffff","primaryBorderColor":"#000000","lineColor":"#000000","textColor":"#000000","edgeLabelBackground":"#ffffff"},"flowchart":{"htmlLabels":true,"curve":"linear","nodeSpacing":42,"rankSpacing":58}}}%%
+flowchart TB
+    classDef stage fill:#f7fbff,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef gap fill:#fff2cc,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef result fill:#f4f4f4,stroke:#000000,stroke-width:2px,color:#000000;
+    classDef data fill:#eaf4ea,stroke:#000000,stroke-width:1px,color:#000000;
+
+    Interest["<b>Рекламный интерес</b><br/>клиент узнает о кафе<br/>из внешних материалов"]:::stage
+    ChannelGap["<b>Центральное ограничение AS-IS</b><br/>нет собственного управляемого<br/>цифрового канала кафе"]:::result
+
+    MenuGap["<b>Меню до визита неполное</b><br/>полная информация доступна<br/>в буклете внутри кафе"]:::gap
+    EventGap["<b>Мероприятия плохо видимы</b><br/>условия узнаются через<br/>личное присутствие или телефон"]:::gap
+    ContactGap["<b>Заявка не структурирована</b><br/>данные и договоренности<br/>остаются у менеджера"]:::data
+    FeedbackGap["<b>Обратная связь устная</b><br/>цифровая история<br/>не формируется"]:::gap
+
+    Result["<b>Итог</b><br/>интерес клиента не превращается<br/>в измеримый и управляемый<br/>цифровой путь"]:::result
+
+    Interest --> ChannelGap
+    ChannelGap --> MenuGap
+    ChannelGap --> EventGap
+    MenuGap --> ContactGap
+    EventGap --> FeedbackGap
+    ContactGap --> Result
+    FeedbackGap --> Result

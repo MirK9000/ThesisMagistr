@@ -1,0 +1,39 @@
+%%{init: {"theme":"base","securityLevel":"loose","themeVariables":{"fontFamily":"Times New Roman","fontSize":"15px","primaryColor":"#ffffff","primaryBorderColor":"#000000","lineColor":"#000000","textColor":"#000000","edgeLabelBackground":"#ffffff"},"flowchart":{"htmlLabels":true,"curve":"linear","nodeSpacing":30,"rankSpacing":42}}}%%
+flowchart LR
+    classDef event fill:#ffffff,stroke:#000000,stroke-width:2px,color:#000000;
+    classDef task fill:#f7fbff,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef gateway fill:#ffffff,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef risk fill:#fff2cc,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef data fill:#eaf4ea,stroke:#000000,stroke-width:1px,color:#000000;
+
+    subgraph Guest["Гость"]
+        direction LR
+        G0(("Старт")):::event --> G1["Ищет канал связи<br/>или информацию о бронировании"]:::task
+        G1 --> G2["Отправляет запрос<br/>по телефону, в мессенджере<br/>или через социальную сеть"]:::task
+        G2 --> G3{"Получен<br/>ответ?"}:::gateway
+        G3 -- "нет" --> G4["Повторяет обращение<br/>или отказывается от брони"]:::task
+        G3 -- "да" --> G5["Уточняет дату,<br/>время и количество гостей"]:::task
+        G5 --> G6(("Завершение<br/>для гостя")):::event
+    end
+
+    subgraph Admin["Администратор"]
+        direction LR
+        A1["Проверяет входящее<br/>сообщение вручную"]:::task
+        A2["Сверяет занятость<br/>столов и событий"]:::task
+        A3{"Место<br/>доступно?"}:::gateway
+        A4["Подтверждает<br/>бронирование"]:::task
+        A5["Предлагает другое<br/>время или отказывает"]:::task
+        A6["Фиксирует запись<br/>в чате, заметках<br/>или отдельной таблице"]:::data
+    end
+
+    R1["Риск AS-IS:<br/>каналы обращения<br/>не объединены"]:::risk
+    R2["Риск AS-IS:<br/>статус брони зависит<br/>от ручной проверки"]:::risk
+    R3["Риск AS-IS:<br/>данные гостя не формируют<br/>единую клиентскую историю"]:::risk
+
+    G2 --> A1
+    A1 --> A2 --> A3
+    A3 -- "да" --> A4 --> A6 --> G6
+    A3 -- "нет" --> A5 --> G6
+    G2 -.-> R1
+    A2 -.-> R2
+    A6 -.-> R3

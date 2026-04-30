@@ -1,0 +1,33 @@
+%%{init: {"theme":"base","themeVariables":{"fontFamily":"Times New Roman","fontSize":"14px","primaryColor":"#ffffff","primaryBorderColor":"#000000","lineColor":"#000000","textColor":"#000000","actorBorder":"#000000","actorBkg":"#f4f4f4","activationBorderColor":"#000000","activationBkgColor":"#f7fbff","sequenceNumberColor":"#000000"}}}%%
+sequenceDiagram
+    autonumber
+    actor Guest as Гость
+    participant Client as Клиентский интерфейс
+    participant API as Серверное API
+    participant Consent as Модуль согласий
+    participant Feedback as Модуль обратной связи
+    participant DB as База данных
+    participant AdminPanel as Административная часть
+    actor Admin as Администратор
+    participant Audit as Журнал действий
+
+    Guest->>Client: Открывает форму обратной связи
+    Client->>Guest: Показывает тему обращения, оценку и необязательный контакт
+    Guest->>Client: Заполняет отзыв
+    alt указан контакт или нужна персональная обработка
+        Guest->>Client: Подтверждает согласие на обработку данных
+        Client->>API: Передает отзыв и факт согласия
+        API->>Consent: Фиксирует цель и версию согласия
+        Consent->>DB: Сохраняет согласие
+    else отзыв без персонального контакта
+        Client->>API: Передает отзыв без контактных данных
+    end
+    API->>Feedback: Создает обращение со статусом "принято"
+    Feedback->>DB: Сохраняет отзыв, тему и статус
+    Feedback->>AdminPanel: Передает обращение администратору
+    Admin->>AdminPanel: Классифицирует обращение
+    AdminPanel->>Feedback: Обновляет статус и управленческий результат
+    Feedback->>DB: Сохраняет результат обработки
+    Feedback->>Audit: Фиксирует административное действие
+    API->>Client: Возвращает подтверждение регистрации обращения
+    Client->>Guest: Показывает результат отправки отзыва

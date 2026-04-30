@@ -1,0 +1,68 @@
+%%{init: {"theme":"base","themeVariables":{"fontFamily":"Times New Roman","fontSize":"18px","primaryColor":"#ffffff","primaryBorderColor":"#000000","lineColor":"#000000","textColor":"#000000"}}}%%
+erDiagram
+    MENU_CATEGORY {
+        int category_id PK
+        string name
+        int sort_order
+        bool is_active
+    }
+
+    MENU_ITEM {
+        int item_id PK
+        int category_id FK
+        string title
+        string description
+        decimal price
+        bool is_active
+    }
+
+    EVENT {
+        int event_id PK
+        string title
+        datetime starts_at
+        string event_type
+        string description
+        bool is_active
+    }
+
+    EVENT_REQUEST {
+        int request_id PK
+        string client_name
+        string phone
+        date desired_date
+        string event_type
+        int guest_count
+        string comment
+        string status
+        datetime created_at
+    }
+
+    CONSENT {
+        int consent_id PK
+        int request_id FK
+        string purpose
+        string consent_version
+        datetime accepted_at
+    }
+
+    MAGIC_PROFILE {
+        int profile_id PK
+        string local_user_key
+        string house
+        int level
+        int mastery_score
+        datetime updated_at
+    }
+
+    MAGIC_ACTION {
+        int action_id PK
+        int profile_id FK
+        string action_type
+        string action_code
+        datetime occurred_at
+    }
+
+    MENU_CATEGORY ||--o{ MENU_ITEM : contains
+    EVENT ||--o{ EVENT_REQUEST : may_reference
+    EVENT_REQUEST ||--|| CONSENT : requires
+    MAGIC_PROFILE ||--o{ MAGIC_ACTION : records

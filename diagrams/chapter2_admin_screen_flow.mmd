@@ -1,0 +1,43 @@
+%%{init: {"theme":"base","securityLevel":"loose","themeVariables":{"fontFamily":"Times New Roman","fontSize":"15px","primaryColor":"#ffffff","primaryBorderColor":"#000000","lineColor":"#000000","textColor":"#000000","edgeLabelBackground":"#ffffff"},"flowchart":{"htmlLabels":true,"curve":"linear","nodeSpacing":28,"rankSpacing":42}}}%%
+flowchart TB
+    classDef entry fill:#f4f4f4,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef screen fill:#f7fbff,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef process fill:#fff2cc,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef control fill:#ffffff,stroke:#000000,stroke-width:2px,color:#000000;
+    classDef analytics fill:#eaf4ea,stroke:#000000,stroke-width:1px,color:#000000;
+
+    Login["<b>Вход администратора</b><br/>аутентификация;<br/>проверка роли"]:::entry
+    Dashboard["<b>Панель управления</b><br/>новые заявки;<br/>новые отзывы;<br/>быстрые действия"]:::screen
+
+    MenuList["<b>Управление меню</b><br/>категории;<br/>карточки блюд;<br/>активность"]:::screen
+    MenuEdit["<b>Редактор блюда</b><br/>описание;<br/>цена;<br/>пометки;<br/>статус"]:::process
+
+    EventList["<b>Управление событиями</b><br/>список;<br/>даты;<br/>лимиты;<br/>статус"]:::screen
+    EventEdit["<b>Редактор события</b><br/>правила;<br/>описание;<br/>сценарий;<br/>доступность"]:::process
+
+    BookingQueue["<b>Журнал бронирований</b><br/>новые;<br/>подтвержденные;<br/>требуют уточнения"]:::screen
+    BookingDetail["<b>Карточка бронирования</b><br/>данные заявки;<br/>событие;<br/>решение;<br/>комментарий"]:::process
+
+    FeedbackInbox["<b>Журнал обратной связи</b><br/>новые обращения;<br/>темы;<br/>приоритеты"]:::screen
+    FeedbackDetail["<b>Карточка обращения</b><br/>оценка;<br/>сообщение;<br/>статус;<br/>результат"]:::process
+
+    ClientRecords["<b>Клиентские записи</b><br/>история;<br/>предпочтения;<br/>тематическое участие"]:::screen
+    ThemeAdmin["<b>Тематические элементы</b><br/>роли;<br/>достижения;<br/>прогресс;<br/>статусы"]:::screen
+
+    Analytics["<b>Аналитика</b><br/>бронирования;<br/>события;<br/>отзывы;<br/>повторный интерес"]:::analytics
+    Access["<b>Роли и доступ</b><br/>пользователи;<br/>права;<br/>ограничения"]:::control
+    Audit["<b>Журнал действий</b><br/>операция;<br/>объект;<br/>исполнитель;<br/>результат"]:::control
+
+    Login --> Dashboard
+    Dashboard --> MenuList --> MenuEdit --> Audit
+    Dashboard --> EventList --> EventEdit --> Audit
+    Dashboard --> BookingQueue --> BookingDetail --> Audit
+    Dashboard --> FeedbackInbox --> FeedbackDetail --> Audit
+    Dashboard --> ClientRecords
+    ClientRecords --> ThemeAdmin --> Audit
+    Dashboard --> Analytics
+    Dashboard --> Access --> Audit
+    Analytics --> BookingQueue
+    Analytics --> FeedbackInbox
+    BookingDetail --> ClientRecords
+    FeedbackDetail --> ClientRecords

@@ -1,0 +1,31 @@
+%%{init: {"theme":"base","securityLevel":"loose","themeVariables":{"fontFamily":"Times New Roman","fontSize":"18px","primaryColor":"#ffffff","primaryBorderColor":"#000000","lineColor":"#000000","textColor":"#000000","edgeLabelBackground":"#ffffff"},"flowchart":{"htmlLabels":true,"curve":"linear","nodeSpacing":42,"rankSpacing":54}}}%%
+flowchart TB
+    classDef actor fill:#f4f4f4,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef task fill:#f7fbff,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef data fill:#eaf4ea,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef control fill:#fff2cc,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef finish fill:#ffffff,stroke:#000000,stroke-width:2px,color:#000000;
+
+    Guest["<b>Гость</b><br/>интересуется личным<br/>мероприятием или днем рождения"]:::actor
+    EventPage["<b>Цифровой раздел мероприятий</b><br/>условия, формат,<br/>контакт и форма"]:::task
+
+    Info["<b>Информация</b><br/>формат события;<br/>пример программы"]:::task
+    Form["<b>Форма</b><br/>имя, телефон, дата,<br/>тип события, гости"]:::task
+    Consent["<b>Согласие</b><br/>цель обработки<br/>контактных данных"]:::control
+
+    Request[("<b>Заявка</b><br/>единая структура;<br/>статус: новая")]:::data
+    Manager["<b>Менеджер</b><br/>получает обращение<br/>и связывается с клиентом"]:::actor
+    Base[("<b>База обращений</b><br/>основа контроля<br/>и будущего анализа")]:::data
+    Result["<b>Результат TO-BE</b><br/>интерес становится<br/>управляемым контактом"]:::finish
+
+    Guest --> EventPage
+    EventPage --> Info
+    EventPage --> Form
+    EventPage --> Consent
+    Info --> Request
+    Form --> Request
+    Consent --> Request
+    Request --> Manager
+    Request --> Base
+    Manager --> Result
+    Base --> Result

@@ -1,0 +1,25 @@
+%%{init: {"theme":"base","securityLevel":"loose","themeVariables":{"fontFamily":"Times New Roman","fontSize":"15px","primaryColor":"#ffffff","primaryBorderColor":"#000000","lineColor":"#000000","textColor":"#000000","edgeLabelBackground":"#ffffff"},"flowchart":{"htmlLabels":true,"curve":"linear","nodeSpacing":28,"rankSpacing":40}}}%%
+flowchart LR
+    classDef stage fill:#f7fbff,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef risk fill:#fff2cc,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef data fill:#eaf4ea,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef result fill:#f4f4f4,stroke:#000000,stroke-width:1px,color:#000000;
+
+    Start["<b>Потребность гостя</b><br/>получить информацию,<br/>запланировать визит<br/>или принять участие<br/>в тематическом событии"]:::result
+
+    Pre["<b>До визита</b><br/><b>Действия:</b> поиск информации,<br/>просмотр меню, уточнение событий,<br/>запрос бронирования<br/><b>Данные:</b> контакт, дата,<br/>количество гостей, интерес к событию"]:::stage
+
+    Visit["<b>Во время визита</b><br/><b>Действия:</b> выбор блюда,<br/>уточнение правил события,<br/>общение с персоналом<br/><b>Данные:</b> заказ, участие,<br/>реакции и уточнения гостя"]:::stage
+
+    Post["<b>После визита</b><br/><b>Действия:</b> отзыв,<br/>повторное обращение,<br/>интерес к новым событиям<br/><b>Данные:</b> оценка сервиса,<br/>история контакта,<br/>предпочтения"]:::stage
+
+    End["<b>Итог AS-IS</b><br/>клиентский опыт поддерживается,<br/>но данные и коммуникации<br/>остаются разрозненными"]:::result
+
+    R1["<b>Информационный разрыв</b><br/>часть запросов остается<br/>в чатах, звонках или памяти персонала"]:::risk
+    R2["<b>Процессный разрыв</b><br/>статус бронирования и события<br/>не всегда виден всем участникам"]:::risk
+    R3["<b>Аналитический разрыв</b><br/>обратная связь не связывается<br/>с историей гостя и событиями"]:::risk
+
+    Start --> Pre --> Visit --> Post --> End
+    Pre -.-> R1
+    Visit -.-> R2
+    Post -.-> R3

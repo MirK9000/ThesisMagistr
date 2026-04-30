@@ -1,0 +1,41 @@
+%%{init: {"theme":"base","securityLevel":"loose","themeVariables":{"fontFamily":"Times New Roman","fontSize":"15px","primaryColor":"#ffffff","primaryBorderColor":"#000000","lineColor":"#000000","textColor":"#000000","edgeLabelBackground":"#ffffff"},"flowchart":{"htmlLabels":true,"curve":"linear","nodeSpacing":26,"rankSpacing":40}}}%%
+flowchart TB
+    classDef core fill:#f7fbff,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef data fill:#eaf4ea,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef legal fill:#f4f4f4,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef action fill:#fff2cc,stroke:#000000,stroke-width:1px,color:#000000;
+
+    User["<b>Клиентская запись</b><br/>идентификатор гостя;<br/>контактные данные;<br/>история взаимодействий"]:::core
+    Role["<b>Роль пользователя</b><br/>гость;<br/>зарегистрированный пользователь;<br/>администратор;<br/>менеджер"]:::legal
+    Consent["<b>Согласие</b><br/>цель обработки;<br/>дата фиксации;<br/>версия текста;<br/>статус"]:::legal
+
+    Booking["<b>Бронирование</b><br/>дата и время;<br/>количество гостей;<br/>статус;<br/>связь с событием"]:::action
+    Feedback["<b>Обратная связь</b><br/>оценка;<br/>тема обращения;<br/>статус обработки;<br/>управленческий результат"]:::action
+    Preference["<b>Предпочтения</b><br/>интересы;<br/>пищевые ограничения;<br/>тематические предпочтения"]:::data
+    ThematicProfile["<b>Тематический профиль</b><br/>роль;<br/>прогресс;<br/>статус;<br/>участие в сценариях"]:::data
+
+    Menu["<b>Меню</b><br/>категории;<br/>блюда;<br/>описания;<br/>актуальность"]:::core
+    Event["<b>Событие</b><br/>тема;<br/>дата;<br/>правила участия;<br/>доступность"]:::core
+    Achievement["<b>Достижение</b><br/>условие получения;<br/>связь с событием;<br/>отражение прогресса"]:::data
+    Notification["<b>Уведомление</b><br/>тип сообщения;<br/>адресат;<br/>основание отправки;<br/>статус"]:::action
+    AuditLog["<b>Журнал действий</b><br/>пользователь;<br/>операция;<br/>объект;<br/>время;<br/>результат"]:::legal
+
+    User --> Role
+    User --> Consent
+    User --> Booking
+    User --> Feedback
+    User --> Preference
+    User --> ThematicProfile
+    Booking --> Event
+    Event --> Achievement
+    ThematicProfile --> Achievement
+    Menu --> Feedback
+    Event --> Feedback
+    Booking --> Notification
+    Feedback --> Notification
+    Role --> AuditLog
+    Consent --> AuditLog
+    Booking --> AuditLog
+    Feedback --> AuditLog
+    Menu --> AuditLog
+    Event --> AuditLog

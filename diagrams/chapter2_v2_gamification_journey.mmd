@@ -1,0 +1,29 @@
+%%{init: {"theme":"base","securityLevel":"loose","themeVariables":{"fontFamily":"Times New Roman","fontSize":"18px","primaryColor":"#ffffff","primaryBorderColor":"#000000","lineColor":"#000000","textColor":"#000000","edgeLabelBackground":"#ffffff"},"flowchart":{"htmlLabels":true,"curve":"linear","nodeSpacing":42,"rankSpacing":54}}}%%
+flowchart TB
+    classDef entry fill:#f4f4f4,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef game fill:#f7fbff,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef cafe fill:#eaf4ea,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef measure fill:#fff2cc,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef core fill:#ffffff,stroke:#000000,stroke-width:2px,color:#000000;
+
+    Entry["<b>Вход в webapp</b><br/>реклама, QR-код<br/>или повторное обращение"]:::entry
+    Core["<b>Геймифицированный слой</b><br/>цифровое продолжение<br/>тематики кафе"]:::core
+
+    Identity["<b>Идентичность</b><br/>выбор факультета;<br/>персональный профиль"]:::game
+    Progress["<b>Прогресс</b><br/>уровни мастерства;<br/>открытые заклинания"]:::game
+    Lessons["<b>Действия</b><br/>уроки;<br/>испытания;<br/>короткие сценарии"]:::game
+    CafeLinks["<b>Связь с кафе</b><br/>меню;<br/>события;<br/>мастер-классы;<br/>дни рождения"]:::cafe
+    Return["<b>Повторный контакт</b><br/>новый контент;<br/>сезонные задания;<br/>интерес к событиям"]:::cafe
+    Metrics["<b>Измеримые действия</b><br/>выбран факультет;<br/>пройден урок;<br/>открыт раздел событий;<br/>создана заявка"]:::measure
+
+    Entry --> Core
+    Core --> Identity
+    Core --> Progress
+    Core --> Lessons
+    Lessons --> CafeLinks
+    Progress --> Return
+    CafeLinks --> Return
+    Identity --> Metrics
+    Progress --> Metrics
+    CafeLinks --> Metrics
+    Return --> Metrics

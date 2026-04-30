@@ -1,0 +1,36 @@
+%%{init: {"theme":"base","securityLevel":"loose","themeVariables":{"fontFamily":"Times New Roman","fontSize":"15px","primaryColor":"#ffffff","primaryBorderColor":"#000000","lineColor":"#000000","textColor":"#000000","edgeLabelBackground":"#ffffff"},"flowchart":{"htmlLabels":true,"curve":"linear","nodeSpacing":30,"rankSpacing":42}}}%%
+flowchart LR
+    classDef event fill:#ffffff,stroke:#000000,stroke-width:2px,color:#000000;
+    classDef task fill:#f7fbff,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef gateway fill:#ffffff,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef risk fill:#fff2cc,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef data fill:#eaf4ea,stroke:#000000,stroke-width:1px,color:#000000;
+
+    subgraph Guest["Гость"]
+        direction LR
+        G0(("Старт")):::event --> G1["Получает опыт<br/>посещения кафе"]:::task
+        G1 --> G2{"Есть желание<br/>оставить отзыв?"}:::gateway
+        G2 -- "нет" --> G3(("Обратная связь<br/>не фиксируется")):::event
+        G2 -- "да" --> G4["Оставляет отзыв<br/>устно, в чате,<br/>на внешней площадке<br/>или в социальной сети"]:::task
+    end
+
+    subgraph Staff["Персонал и администратор"]
+        direction LR
+        A1["Замечает отзыв<br/>или получает сообщение"]:::task
+        A2["Интерпретирует<br/>содержание обращения"]:::task
+        A3{"Требуется<br/>реакция?"}:::gateway
+        A4["Отвечает гостю<br/>при наличии контакта"]:::task
+        A5["Передает проблему<br/>владельцу или персоналу"]:::task
+        A6["Хранит сведения<br/>в переписке, памяти<br/>или разрозненных заметках"]:::data
+    end
+
+    R1["Риск AS-IS:<br/>отзыв не связан<br/>с визитом, событием<br/>или предпочтениями"]:::risk
+    R2["Риск AS-IS:<br/>реакция зависит<br/>от ручного обнаружения"]:::risk
+    R3["Риск AS-IS:<br/>сложно выявлять<br/>повторяющиеся проблемы"]:::risk
+
+    G4 --> A1 --> A2 --> A3
+    A3 -- "да" --> A4 --> A5 --> A6
+    A3 -- "нет" --> A6
+    G4 -.-> R1
+    A1 -.-> R2
+    A6 -.-> R3

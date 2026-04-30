@@ -1,0 +1,28 @@
+%%{init: {"theme":"base","securityLevel":"loose","themeVariables":{"fontFamily":"Times New Roman","fontSize":"18px","primaryColor":"#ffffff","primaryBorderColor":"#000000","lineColor":"#000000","textColor":"#000000","edgeLabelBackground":"#ffffff"},"flowchart":{"htmlLabels":true,"curve":"linear","nodeSpacing":42,"rankSpacing":54}}}%%
+flowchart TB
+    classDef actor fill:#f4f4f4,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef system fill:#f7fbff,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef data fill:#eaf4ea,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef outside fill:#fff2cc,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef core fill:#ffffff,stroke:#000000,stroke-width:2px,color:#000000;
+
+    Ads["<b>Рекламные материалы</b><br/>блогеры;<br/>внешние объявления;<br/>первичный интерес"]:::outside
+    Guest["<b>Гость</b><br/>ищет меню, события,<br/>контакты и впечатление<br/>от тематического кафе"]:::actor
+    Client["<b>Клиентская часть webapp</b><br/>единая цифровая точка входа"]:::core
+
+    Info["<b>Информационный слой</b><br/>меню;<br/>события;<br/>контакты;<br/>личные мероприятия"]:::system
+    Request["<b>Форма заявки</b><br/>имя;<br/>телефон;<br/>дата;<br/>тип события;<br/>число гостей"]:::system
+    Game["<b>Геймификация</b><br/>факультет;<br/>профиль;<br/>уроки;<br/>заклинания;<br/>прогресс"]:::system
+
+    Manager["<b>Менеджер</b><br/>получает заявку;<br/>перезванивает;<br/>уточняет детали"]:::actor
+    Lead["<b>Управляющая</b><br/>актуализирует меню,<br/>события и предложения"]:::actor
+    Consent["<b>Согласия</b><br/>цель обработки;<br/>версия текста;<br/>факт подтверждения"]:::data
+    Contact["<b>Телефон менеджера</b><br/>ручное согласование<br/>после первичной заявки"]:::outside
+
+    Ads --> Guest --> Client
+    Client --> Info
+    Client --> Request
+    Client --> Game
+    Lead --> Info
+    Request --> Consent
+    Request --> Manager --> Contact

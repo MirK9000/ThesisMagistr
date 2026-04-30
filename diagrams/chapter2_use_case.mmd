@@ -1,0 +1,42 @@
+%%{init: {"theme":"base","securityLevel":"loose","themeVariables":{"fontFamily":"Times New Roman","fontSize":"15px","primaryColor":"#ffffff","primaryBorderColor":"#000000","lineColor":"#000000","textColor":"#000000","edgeLabelBackground":"#ffffff"},"flowchart":{"htmlLabels":true,"curve":"linear","nodeSpacing":26,"rankSpacing":38}}}%%
+flowchart LR
+    classDef actor fill:#f4f4f4,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef usecase fill:#f7fbff,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef system fill:#ffffff,stroke:#000000,stroke-width:1px,color:#000000;
+
+    Guest["Гость"]:::actor
+    User["Зарегистрированный<br/>пользователь"]:::actor
+    Admin["Администратор"]:::actor
+    Owner["Менеджер / владелец"]:::actor
+
+    subgraph System["Клиентский цифровой контур"]
+        direction TB
+        UC1(["Просматривать меню<br/>и сведения о кафе"]):::usecase
+        UC2(["Просматривать события<br/>и правила участия"]):::usecase
+        UC3(["Создавать заявку<br/>на бронирование"]):::usecase
+        UC4(["Оставлять обратную связь"]):::usecase
+        UC5(["Управлять профилем<br/>и предпочтениями"]):::usecase
+        UC6(["Участвовать в тематическом<br/>сценарии"]):::usecase
+        UC7(["Давать и отзывать<br/>согласия"]):::usecase
+        UC8(["Управлять меню<br/>и событиями"]):::usecase
+        UC9(["Обрабатывать<br/>бронирования"]):::usecase
+        UC10(["Обрабатывать отзывы<br/>и обращения"]):::usecase
+        UC11(["Просматривать базовую<br/>аналитику"]):::usecase
+        UC12(["Управлять ролями<br/>и доступом"]):::usecase
+    end
+
+    Guest --> UC1
+    Guest --> UC2
+    Guest --> UC3
+    Guest --> UC4
+    Guest --> UC7
+    User --> UC5
+    User --> UC6
+    User --> UC7
+    Admin --> UC8
+    Admin --> UC9
+    Admin --> UC10
+    Admin --> UC12
+    Owner --> UC11
+    Owner --> UC8
+    Owner --> UC12

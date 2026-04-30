@@ -3,8 +3,10 @@
 
 \begin{document}
 
-% Включение титульного листа (первая страница файла Title.pdf)
-\includepdf[pages={1-1}]{extra/Title.pdf}
+% Пустая первая страница вместо титульного листа для сохранения нумерации
+\thispagestyle{empty}
+\mbox{}
+\newpage
 
 % TODO: Сюда будет вставлено Задание на ВКР после его получения (например, \includepdf[pages={1-2}]{extra/Zadanie.pdf})
 
@@ -16,8 +18,8 @@
 \input{chapters/chapter_2.tex}
 \input{chapters/chapter_3.tex}
 
-% Заключение
-\input{chapters/conclusion.tex}
+% Заключение временно исключено из текущей сборки
+% \input{chapters/conclusion.tex}
 
 % Библиографический список
 \input{chapters/bibliography.tex}

@@ -1,0 +1,56 @@
+%%{init: {"theme":"base","securityLevel":"loose","themeVariables":{"fontFamily":"Times New Roman","fontSize":"15px","primaryColor":"#ffffff","primaryBorderColor":"#000000","lineColor":"#000000","textColor":"#000000","edgeLabelBackground":"#ffffff"},"flowchart":{"htmlLabels":true,"curve":"linear","nodeSpacing":28,"rankSpacing":44}}}%%
+flowchart TB
+    classDef actor fill:#f4f4f4,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef ui fill:#f7fbff,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef service fill:#eaf4ea,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef data fill:#fff2cc,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef control fill:#ffffff,stroke:#000000,stroke-width:2px,color:#000000;
+
+    Guest["<b>Гость</b><br/>просмотр меню;<br/>бронирование;<br/>обратная связь"]:::actor
+    Admin["<b>Администратор</b><br/>контент;<br/>заявки;<br/>отзывы"]:::actor
+    Owner["<b>Менеджер / владелец</b><br/>аналитика;<br/>контроль доступа"]:::actor
+
+    ClientApp["<b>Клиентская часть</b><br/>веб-интерфейс;<br/>мобильный доступ;<br/>QR-сценарий"]:::ui
+    AdminPanel["<b>Административная часть</b><br/>управление меню;<br/>событиями;<br/>бронированиями;<br/>отзывами"]:::ui
+
+    API["<b>Серверное API</b><br/>единая точка обмена<br/>между интерфейсами<br/>и бизнес-логикой"]:::control
+
+    Auth["<b>Модуль авторизации<br/>и ролей</b><br/>гость;<br/>пользователь;<br/>администратор;<br/>менеджер"]:::service
+    Content["<b>Модуль контента</b><br/>меню;<br/>категории;<br/>события;<br/>справочная информация"]:::service
+    Booking["<b>Модуль бронирования</b><br/>заявка;<br/>статус;<br/>административная обработка"]:::service
+    Feedback["<b>Модуль обратной связи</b><br/>отзыв;<br/>категория;<br/>статус обработки"]:::service
+    Thematic["<b>Модуль тематического<br/>взаимодействия</b><br/>роль;<br/>прогресс;<br/>достижения"]:::service
+    Consent["<b>Модуль согласий<br/>и правового контроля</b><br/>цель обработки;<br/>версия текста;<br/>факт согласия"]:::service
+    Analytics["<b>Модуль аналитики</b><br/>агрегированные показатели;<br/>события;<br/>бронирования;<br/>обратная связь"]:::service
+    Audit["<b>Модуль журналирования</b><br/>административные действия;<br/>изменения статусов;<br/>операции с данными"]:::service
+
+    DB["<b>Реляционная база данных</b><br/>пользователи;<br/>контент;<br/>бронирования;<br/>отзывы;<br/>согласия;<br/>журнал"]:::data
+
+    Guest --> ClientApp
+    Admin --> AdminPanel
+    Owner --> AdminPanel
+    ClientApp --> API
+    AdminPanel --> API
+    API --> Auth
+    API --> Content
+    API --> Booking
+    API --> Feedback
+    API --> Thematic
+    API --> Consent
+    API --> Analytics
+    API --> Audit
+    Auth --> DB
+    Content --> DB
+    Booking --> DB
+    Feedback --> DB
+    Thematic --> DB
+    Consent --> DB
+    Analytics --> DB
+    Audit --> DB
+    Booking --> Consent
+    Feedback --> Consent
+    Thematic --> Consent
+    Auth --> Audit
+    Booking --> Audit
+    Feedback --> Audit
+    Content --> Audit

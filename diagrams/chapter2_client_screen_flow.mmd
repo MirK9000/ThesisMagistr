@@ -1,0 +1,45 @@
+%%{init: {"theme":"base","securityLevel":"loose","themeVariables":{"fontFamily":"Times New Roman","fontSize":"15px","primaryColor":"#ffffff","primaryBorderColor":"#000000","lineColor":"#000000","textColor":"#000000","edgeLabelBackground":"#ffffff"},"flowchart":{"htmlLabels":true,"curve":"linear","nodeSpacing":28,"rankSpacing":42}}}%%
+flowchart TB
+    classDef entry fill:#f4f4f4,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef screen fill:#f7fbff,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef form fill:#fff2cc,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef profile fill:#eaf4ea,stroke:#000000,stroke-width:1px,color:#000000;
+    classDef legal fill:#ffffff,stroke:#000000,stroke-width:2px,color:#000000;
+
+    Entry["<b>Точка входа</b><br/>ссылка, QR-код,<br/>поиск или повторное обращение"]:::entry
+    Home["<b>Главный экран</b><br/>краткая информация;<br/>навигация;<br/>актуальные события"]:::screen
+
+    Menu["<b>Меню</b><br/>категории;<br/>карточки блюд;<br/>поиск и фильтры"]:::screen
+    Dish["<b>Карточка блюда</b><br/>описание;<br/>цена;<br/>состав;<br/>пометки"]:::screen
+
+    Events["<b>События</b><br/>список мероприятий;<br/>даты;<br/>доступность"]:::screen
+    EventCard["<b>Карточка события</b><br/>правила участия;<br/>места;<br/>тематический сценарий"]:::screen
+
+    Booking["<b>Форма бронирования</b><br/>дата;<br/>время;<br/>количество гостей;<br/>контакт"]:::form
+    BookingStatus["<b>Статус бронирования</b><br/>новое;<br/>подтверждено;<br/>отклонено;<br/>требует уточнения"]:::form
+
+    Feedback["<b>Обратная связь</b><br/>тема обращения;<br/>оценка;<br/>сообщение;<br/>контакт при необходимости"]:::form
+    FeedbackStatus["<b>Статус обращения</b><br/>принято;<br/>в обработке;<br/>закрыто"]:::form
+
+    Profile["<b>Профиль</b><br/>контакты;<br/>история;<br/>предпочтения"]:::profile
+    Theme["<b>Тематический профиль</b><br/>роль;<br/>прогресс;<br/>достижения;<br/>участие"]:::profile
+    Consent["<b>Согласия и данные</b><br/>цели обработки;<br/>версии согласий;<br/>отзыв согласия"]:::legal
+
+    Entry --> Home
+    Home --> Menu
+    Menu --> Dish
+    Home --> Events
+    Events --> EventCard
+    EventCard --> Booking
+    Home --> Booking
+    Booking --> Consent
+    Consent --> BookingStatus
+    Home --> Feedback
+    Feedback --> Consent
+    Consent --> FeedbackStatus
+    Home --> Profile
+    Profile --> Theme
+    Profile --> Consent
+    EventCard --> Theme
+    BookingStatus --> Profile
+    FeedbackStatus --> Profile

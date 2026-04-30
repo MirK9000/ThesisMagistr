@@ -1,0 +1,29 @@
+%%{init: {"theme":"base","themeVariables":{"fontFamily":"Times New Roman","fontSize":"14px","primaryColor":"#ffffff","primaryBorderColor":"#000000","lineColor":"#000000","textColor":"#000000","actorBorder":"#000000","actorBkg":"#f4f4f4","activationBorderColor":"#000000","activationBkgColor":"#f7fbff","sequenceNumberColor":"#000000"}}}%%
+sequenceDiagram
+    autonumber
+    actor Guest as Гость
+    participant Client as Клиентский интерфейс
+    participant API as Серверное API
+    participant Consent as Модуль согласий
+    participant Booking as Модуль бронирования
+    participant DB as База данных
+    participant AdminPanel as Административная часть
+    actor Admin as Администратор
+    participant Audit as Журнал действий
+
+    Guest->>Client: Открывает форму бронирования
+    Client->>Guest: Показывает поля и цель обработки данных
+    Guest->>Client: Заполняет дату, время, количество гостей и контакт
+    Guest->>Client: Подтверждает согласие
+    Client->>API: Передает заявку и факт согласия
+    API->>Consent: Проверяет версию согласия и цель обработки
+    Consent->>DB: Сохраняет факт согласия
+    API->>Booking: Создает заявку со статусом "новая"
+    Booking->>DB: Сохраняет бронирование
+    Booking->>AdminPanel: Передает новую заявку
+    Admin->>AdminPanel: Рассматривает заявку
+    AdminPanel->>Booking: Подтверждает, отклоняет или уточняет заявку
+    Booking->>DB: Обновляет статус бронирования
+    Booking->>Audit: Фиксирует административное действие
+    API->>Client: Возвращает актуальный статус
+    Client->>Guest: Показывает результат обработки заявки
